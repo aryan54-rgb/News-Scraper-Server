@@ -6,7 +6,7 @@ import uuid
 from decimal import Decimal
 from typing import TYPE_CHECKING
 
-from sqlalchemy import CheckConstraint, ForeignKey, Index, Numeric, String, Text, UniqueConstraint, text
+from sqlalchemy import Boolean, CheckConstraint, ForeignKey, Index, Numeric, String, Text, UniqueConstraint, text
 from sqlalchemy.dialects.postgresql import ENUM, JSONB
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
@@ -23,16 +23,21 @@ class SourceType(Base, ModelBase):
 
     __tablename__ = "source_type"
     __table_args__ = (
-        UniqueConstraint("code", name="uq_source_type_code"),
+        UniqueConstraint("slug", name="uq_source_type_slug"),
         UniqueConstraint("name", name="uq_source_type_name"),
     )
 
+    slug: Mapped[str] = mapped_column(String(80), nullable=False)
     code: Mapped[SourceTypeEnum] = mapped_column(
         ENUM(SourceTypeEnum, name="source_type_enum", create_type=False),
         nullable=False,
     )
     name: Mapped[str] = mapped_column(String(100), nullable=False)
     description: Mapped[str | None] = mapped_column(Text)
+    collector_key: Mapped[str | None] = mapped_column(String(120))
+    capabilities: Mapped[list[str]] = mapped_column(JSONB, nullable=False, default=list)
+    config_schema: Mapped[dict[str, object]] = mapped_column(JSONB, nullable=False, default=dict)
+    is_active: Mapped[bool] = mapped_column(Boolean, nullable=False, server_default=text("true"))
 
     sources: Mapped[list[Source]] = relationship(back_populates="source_type", lazy="selectin")
 

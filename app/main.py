@@ -14,6 +14,7 @@ from app.core.config import Settings, get_settings
 from app.core.logging import get_logger, setup_logging
 from app.core.redis import close_redis, init_redis
 from app.database.session import close_database, init_database
+from app.source_registry.exceptions import SourceRegistryError, source_registry_exception_handler
 
 logger = get_logger(__name__)
 
@@ -63,6 +64,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     )
     app.add_middleware(ErrorHandlingMiddleware)
     app.add_middleware(RequestIDMiddleware)
+    app.add_exception_handler(SourceRegistryError, source_registry_exception_handler)
     app.include_router(api_router)
 
     return app

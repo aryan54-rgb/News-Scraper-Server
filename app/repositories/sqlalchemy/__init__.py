@@ -1,7 +1,7 @@
-"""Repository interfaces and persistence adapters."""
+"""SQLAlchemy repository adapters."""
 
-from app.repositories.base import Page, Repository
-from app.repositories.sqlalchemy import (
+from app.repositories.sqlalchemy.base import SQLAlchemyRepository
+from app.repositories.sqlalchemy.models import (
     SQLAlchemyArticleEventRepository,
     SQLAlchemyArticleRepository,
     SQLAlchemyClassificationEvidenceRepository,
@@ -16,17 +16,16 @@ from app.repositories.sqlalchemy import (
     SQLAlchemyKeywordHitRepository,
     SQLAlchemyKeywordRepository,
     SQLAlchemyRawDocumentRepository,
-    SQLAlchemyRepository,
-    SQLAlchemySourceGroupRepository,
-    SQLAlchemySourceRepository,
-    SQLAlchemySourceTypeRepository,
     SQLAlchemyTaxonomyNodeRepository,
     SQLAlchemyTaxonomyVersionRepository,
 )
+from app.repositories.sqlalchemy.sources import (
+    SQLAlchemySourceGroupRepository,
+    SQLAlchemySourceRepository,
+    SQLAlchemySourceTypeRepository,
+)
 
 __all__ = [
-    "Page",
-    "Repository",
     "SQLAlchemyArticleEventRepository",
     "SQLAlchemyArticleRepository",
     "SQLAlchemyClassificationEvidenceRepository",

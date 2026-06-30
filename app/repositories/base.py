@@ -1,16 +1,14 @@
-"""Repository interfaces for database-backed persistence.
-
-These are contracts only. Concrete implementations belong in a later phase.
-"""
+"""Repository interfaces for database-backed persistence."""
 
 from __future__ import annotations
 
 import uuid
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
-from typing import Any, Generic, Protocol, TypeVar
+from typing import Any, Generic, Literal, Protocol, TypeVar
 
 ModelT = TypeVar("ModelT")
+SortDirection = Literal["asc", "desc"]
 
 
 @dataclass(frozen=True)
@@ -42,14 +40,37 @@ class Repository(Protocol, Generic[ModelT]):
         """Return an entity by identifier."""
         ...
 
-    async def search(self, criteria: Mapping[str, Any]) -> Sequence[ModelT]:
+    async def search(
+        self,
+        criteria: Mapping[str, Any],
+        *,
+        sort_by: str | None = None,
+        sort_direction: SortDirection = "asc",
+        limit: int = 100,
+        offset: int = 0,
+    ) -> Sequence[ModelT]:
         """Return entities matching structured search criteria."""
         ...
 
-    async def list(self, *, limit: int = 100, offset: int = 0) -> Sequence[ModelT]:
+    async def list(
+        self,
+        *,
+        limit: int = 100,
+        offset: int = 0,
+        sort_by: str | None = None,
+        sort_direction: SortDirection = "asc",
+    ) -> Sequence[ModelT]:
         """Return a bounded ordered list of entities."""
         ...
 
-    async def paginate(self, *, page: int = 1, page_size: int = 50) -> Page[ModelT]:
+    async def paginate(
+        self,
+        *,
+        page: int = 1,
+        page_size: int = 50,
+        criteria: Mapping[str, Any] | None = None,
+        sort_by: str | None = None,
+        sort_direction: SortDirection = "asc",
+    ) -> Page[ModelT]:
         """Return a counted page of entities."""
         ...

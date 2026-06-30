@@ -1,0 +1,2 @@
+"""Source Registry application module."""
+
