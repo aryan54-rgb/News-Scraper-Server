@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Notes on Building a BLE Mesh Prototype - The Weekend Hacker</title>
+</head>
+<body>
+<div class="blog-header"><h2><a href="/">The Weekend Hacker</a></h2><div class="blog-nav"><a href="/about">About</a></div></div>
+<div class="post-content">
+<h1>Notes on Building a BLE Mesh Prototype</h1>
+<p class="post-meta">Posted on June 10, 2026 by Aryan K.</p>
+<img src="../assets/ble-diagram.png" alt="BLE mesh diagram">
+<p>Over the past two weekends I've been hacking on a small Bluetooth Low Energy messenger that doesn't need internet at all. The idea is simple: two phones nearby should be able to exchange short text messages directly over BLE, with no server in between.</p>
+<p>The trickiest part so far has been getting a stable GATT server running on Android from Kotlin while keeping the actual packet encoding logic in Go, shared via Dart FFI into the Flutter UI layer. There's a lot of ceremony around characteristic notifications that the documentation glosses over.</p>
+<h3>What's working</h3>
+<p>Right now I can reliably send a 200-byte payload between two test devices with under a second of latency once the connection is established. Connection setup itself is still slower than I'd like, somewhere around 3-4 seconds on average.</p>
+<p>Next up: chunking larger payloads and adding a simple acknowledgement scheme so messages aren't silently dropped when devices briefly move out of range.</p>
+</div>
+<div class="comments-section"><h4>12 Comments</h4><div class="comment">Great writeup!</div></div>
+<div class="blog-footer">Built with a static site generator.</div>
+</body>
+</html>
