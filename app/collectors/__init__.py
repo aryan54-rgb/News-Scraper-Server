@@ -21,6 +21,7 @@ from app.collectors.models import (
     RetryPolicy,
 )
 from app.collectors.registry import CollectorRegistry, collector_registry
+from app.collectors.rss import RSSCollector
 
 __all__ = [
     "Attachment",
@@ -41,6 +42,7 @@ __all__ = [
     "NoOpCollectorMetrics",
     "RawDocument",
     "RetryPolicy",
+    "RSSCollector",
     "SourceValidationError",
     "collector_registry",
 ]
